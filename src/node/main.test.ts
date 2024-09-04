@@ -1,16 +1,20 @@
-import './main.test'
+import '@/utils/index.test'
 
 import os from 'node:os'
 
-import colorInfo from '@tests/dummies/colorInfo'
 import noEnv from '@tests/dummies/noEnv'
-import options from '@tests/dummies/options'
-import stream from '@tests/dummies/stream'
+import colorSupports from '@tests/dummies/colorSupports'
+import mockedIsatty from '@tests/mocks/isatty'
+import unmockIsatty from '@tests/unmocks/isatty'
 import useOri from '@tests/utils/useOri'
 
-import { createSupportsColor } from '.'
+import main from './main'
 
-describe('Test `createSupportsColor` feature:', () => {
+jest.mock('node:tty', () => ({
+  isatty: jest.fn()
+}))
+
+describe('Test `main` node feature:', () => {
   const oriProcess = useOri(globalThis.process)
 
   beforeEach(() => {
@@ -23,8 +27,14 @@ describe('Test `createSupportsColor` feature:', () => {
     }
   })
 
+  beforeEach(() => {
+    unmockIsatty(mockedIsatty)
+    mockedIsatty.mockReturnValue(true)
+  })
+
   afterEach(() => {
     globalThis.process = useOri(oriProcess)
+    unmockIsatty(mockedIsatty)
   })
 
   describe('By mocking `FORCE_COLOR` env:', () => {
@@ -33,9 +43,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.FORCE_COLOR = 'true'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -45,9 +55,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.FORCE_COLOR = ''
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -57,10 +67,10 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.FORCE_COLOR = 'false'
       })
 
-      it('Should return `false`', () => {
-        const received = createSupportsColor(stream)
-        const expected = colorInfo.level0
-        expect(received).toBe(expected)
+      it('Should return `colorSupport` level 0!', () => {
+        const received = main()
+        const expected = colorSupports.level0
+        expect(received).toEqual(expected)
       })
     })
 
@@ -69,10 +79,10 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.FORCE_COLOR = '0'
       })
 
-      it('Should return `false`', () => {
-        const received = createSupportsColor(stream)
-        const expected = colorInfo.level0
-        expect(received).toBe(expected)
+      it('Should return `colorSupport` level 0!', () => {
+        const received = main()
+        const expected = colorSupports.level0
+        expect(received).toEqual(expected)
       })
     })
 
@@ -81,9 +91,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.FORCE_COLOR = '1'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -93,9 +103,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.FORCE_COLOR = '2'
       })
 
-      it('Should return `colorInfo` level 2!', () => {
-        const received = createSupportsColor(stream)
-        const expected = colorInfo.level2
+      it('Should return `colorSupport` level 2!', () => {
+        const received = main()
+        const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
     })
@@ -106,8 +116,8 @@ describe('Test `createSupportsColor` feature:', () => {
       })
 
       it('Should return `colorSupport` level 3!', () => {
-        const received = createSupportsColor(stream)
-        const expected = colorInfo.level3
+        const received = main()
+        const expected = colorSupports.level3
         expect(received).toEqual(expected)
       })
     })
@@ -126,10 +136,10 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--no-color'] }
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
 
@@ -138,10 +148,10 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--no-colors'] }
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
 
@@ -150,10 +160,10 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--color=false'] }
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
 
@@ -162,10 +172,10 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--color=never'] }
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
 
@@ -174,9 +184,9 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--color'] }
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -186,9 +196,9 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--colors'] }
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -198,9 +208,9 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--color=true'] }
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -210,9 +220,9 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--color=always'] }
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -223,8 +233,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -235,8 +245,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -247,8 +257,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -258,9 +268,9 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--color=256'] }
         })
 
-        it('Should return `colorInfo` level 2!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level2
+        it('Should return `colorSupport` level 2!', () => {
+          const received = main()
+          const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
       })
@@ -270,9 +280,9 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--color=256', '--'] }
         })
 
-        it('Should return `colorInfo` level 2!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level2
+        it('Should return `colorSupport` level 2!', () => {
+          const received = main()
+          const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
       })
@@ -282,10 +292,10 @@ describe('Test `createSupportsColor` feature:', () => {
           (globalThis as any).Deno = { args: ['--'] }
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
     })
@@ -296,10 +306,10 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--no-color']
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
 
@@ -308,10 +318,10 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--no-colors']
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
 
@@ -320,10 +330,10 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--no-color=false']
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
 
@@ -332,10 +342,10 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--no-color=never']
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
 
@@ -344,9 +354,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--color']
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -356,9 +366,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--colors']
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -368,9 +378,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--color=true']
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -380,9 +390,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--color=always']
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -393,8 +403,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -405,8 +415,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -417,8 +427,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -428,9 +438,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--color=256']
         })
 
-        it('Should return `colorInfo` level 2!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level2
+        it('Should return `colorSupport` level 2!', () => {
+          const received = main()
+          const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
       })
@@ -440,9 +450,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--color=256', '--']
         })
 
-        it('Should return `colorInfo` level 2!', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level2
+        it('Should return `colorSupport` level 2!', () => {
+          const received = main()
+          const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
       })
@@ -452,10 +462,10 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.argv = ['--']
         })
 
-        it('Should return `false`', () => {
-          const received = createSupportsColor(stream)
-          const expected = colorInfo.level0
-          expect(received).toBe(expected)
+        it('Should return `colorSupport` level 0!', () => {
+          const received = main()
+          const expected = colorSupports.level0
+          expect(received).toEqual(expected)
         })
       })
     })
@@ -468,31 +478,42 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.AGENT_NAME = ''
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
   })
 
   describe('By mocking TTY options:', () => {
-    it('Should return `0` when `streamIsTTY` is `false`!', () => {
-      const received = createSupportsColor(stream, { streamIsTTY: false })
-      const expected = colorInfo.level0
-      expect(received).toBe(expected)
+    afterEach(() => {
+      unmockIsatty(mockedIsatty)
+      mockedIsatty.mockReturnValue(true)
     })
 
-    it('Should return `0` when `streamIsTTY` is `true`!!', () => {
-      const received = createSupportsColor(stream, { streamIsTTY: true })
-      const expected = colorInfo.level0
-      expect(received).toBe(expected)
+    describe('By mocking `isatty` to return `false`:', () => {
+      beforeEach(() => {
+        mockedIsatty.mockReturnValue(false)
+      })
+
+      it('Should return `colorSupport` level 0!', () => {
+        const received = main()
+        const expected = colorSupports.level0
+        expect(received).toEqual(expected)
+      })
     })
 
-    it('Should return `0` when `streamIsTTY` is `undefined`!!', () => {
-      const received = createSupportsColor(stream, { streamIsTTY: undefined })
-      const expected = colorInfo.level0
-      expect(received).toBe(expected)
+    describe('By mocking `isatty` to return `true`:', () => {
+      beforeEach(() => {
+        mockedIsatty.mockReturnValue(true)
+      })
+
+      it('Should return `colorSupport` level 0!', () => {
+        const received = main()
+        const expected = colorSupports.level0
+        expect(received).toEqual(expected)
+      })
     })
   })
 
@@ -502,10 +523,10 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = 'dumb'
       })
 
-      it('Should return `false`', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level0
-        expect(received).toBe(expected)
+      it('Should return `colorSupport` level 0!', () => {
+        const received = main()
+        const expected = colorSupports.level0
+        expect(received).toEqual(expected)
       })
     })
   })
@@ -526,9 +547,9 @@ describe('Test `createSupportsColor` feature:', () => {
         os.release = () => '10.x.10586'
       })
 
-      it('Should return `colorInfo` level 2!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level2
+      it('Should return `colorSupport` level 2!', () => {
+        const received = main()
+        const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
     })
@@ -539,8 +560,8 @@ describe('Test `createSupportsColor` feature:', () => {
       })
 
       it('Should return `colorSupport` level 3!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level3
+        const received = main()
+        const expected = colorSupports.level3
         expect(received).toEqual(expected)
       })
     })
@@ -550,9 +571,9 @@ describe('Test `createSupportsColor` feature:', () => {
         os.release = () => '10.x.10585'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -570,8 +591,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -582,8 +603,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -593,9 +614,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.env.TRAVIS = ''
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -605,9 +626,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.env.CIRCLECI = ''
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -617,9 +638,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.env.APPVEYOR = ''
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -629,9 +650,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.env.GITLAB_CI = ''
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -641,9 +662,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.env.BUILDKITE = ''
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -653,9 +674,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.env.DRONE = ''
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
@@ -665,17 +686,17 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.env.CI_NAME = 'codeship'
         })
 
-        it('Should return `colorInfo` level 1!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level1
+        it('Should return `colorSupport` level 1!', () => {
+          const received = main()
+          const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
 
-      it('Should return `false`', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level0
-        expect(received).toBe(expected)
+      it('Should return `colorSupport` level 0!', () => {
+        const received = main()
+        const expected = colorSupports.level0
+        expect(received).toEqual(expected)
       })
     })
   })
@@ -686,9 +707,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TEAMCITY_VERSION = '9.01.0'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -698,10 +719,10 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TEAMCITY_VERSION = '9.0.0'
       })
 
-      it('Should return `false`', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level0
-        expect(received).toBe(expected)
+      it('Should return `colorSupport` level 0!', () => {
+        const received = main()
+        const expected = colorSupports.level0
+        expect(received).toEqual(expected)
       })
     })
   })
@@ -713,8 +734,8 @@ describe('Test `createSupportsColor` feature:', () => {
       })
 
       it('Should return `colorSupport` level 3!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level3
+        const received = main()
+        const expected = colorSupports.level3
         expect(received).toEqual(expected)
       })
     })
@@ -725,8 +746,8 @@ describe('Test `createSupportsColor` feature:', () => {
       })
 
       it('Should return `colorSupport` level 3!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level3
+        const received = main()
+        const expected = colorSupports.level3
         expect(received).toEqual(expected)
       })
     })
@@ -742,8 +763,8 @@ describe('Test `createSupportsColor` feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level3
+          const received = main()
+          const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
       })
@@ -753,9 +774,9 @@ describe('Test `createSupportsColor` feature:', () => {
           globalThis.process.env.TERM_PROGRAM_VERSION = undefined
         })
 
-        it('Should return `colorInfo` level 2!', () => {
-          const received = createSupportsColor(stream, options)
-          const expected = colorInfo.level2
+        it('Should return `colorSupport` level 2!', () => {
+          const received = main()
+          const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
       })
@@ -766,9 +787,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM_PROGRAM = 'Apple_Terminal'
       })
 
-      it('Should return `colorInfo` level 2!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level2
+      it('Should return `colorSupport` level 2!', () => {
+        const received = main()
+        const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
     })
@@ -778,9 +799,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = '*-256'
       })
 
-      it('Should return `colorInfo` level 2!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level2
+      it('Should return `colorSupport` level 2!', () => {
+        const received = main()
+        const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
     })
@@ -790,9 +811,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = '*-256cOlOr'
       })
 
-      it('Should return `colorInfo` level 2!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level2
+      it('Should return `colorSupport` level 2!', () => {
+        const received = main()
+        const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
     })
@@ -802,10 +823,10 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = undefined
       })
 
-      it('Should return `false`', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level0
-        expect(received).toBe(expected)
+      it('Should return `colorSupport` level 0!', () => {
+        const received = main()
+        const expected = colorSupports.level0
+        expect(received).toEqual(expected)
       })
     })
 
@@ -814,9 +835,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = 'screen*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -826,9 +847,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = 'xterm*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -838,9 +859,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = 'vt100*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -850,9 +871,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = 'vt220*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -862,9 +883,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = 'rxvt*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -874,9 +895,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = '*color*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -886,9 +907,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = '*ansi*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -898,9 +919,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = '*cygwin*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -910,9 +931,9 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.TERM = '*linux*'
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
@@ -922,18 +943,18 @@ describe('Test `createSupportsColor` feature:', () => {
         globalThis.process.env.COLORTERM = ''
       })
 
-      it('Should return `colorInfo` level 1!', () => {
-        const received = createSupportsColor(stream, options)
-        const expected = colorInfo.level1
+      it('Should return `colorSupport` level 1!', () => {
+        const received = main()
+        const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
     })
   })
 
   describe('By mocking other conditions:', () => {
-    it('Should return `false`', () => {
-      const received = createSupportsColor(stream, options)
-      const expected = colorInfo.level0
+    it('Should return `colorSupport` level 0!', () => {
+      const received = main()
+      const expected = colorSupports.level0
       expect(received).toEqual(expected)
     })
   })
