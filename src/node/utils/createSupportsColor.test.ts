@@ -1,4 +1,4 @@
-import './main.test'
+import '@/utils/index.test'
 
 import os from 'node:os'
 
@@ -8,9 +8,9 @@ import options from '@tests/dummies/options'
 import stream from '@tests/dummies/stream'
 import useOri from '@tests/utils/useOri'
 
-import { createSupportsColor } from '.'
+import createSupportsColor from './createSupportsColor'
 
-describe('Test `createSupportsColor` feature:', () => {
+describe('Test `createSupportsColor` util:', () => {
   const oriProcess = useOri(globalThis.process)
 
   beforeEach(() => {
