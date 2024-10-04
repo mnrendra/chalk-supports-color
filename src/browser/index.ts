@@ -1,3 +1,8 @@
 import main from './main'
 
-export default main
+const supportsColor = main()
+
+export const stdout = supportsColor.stdout
+export const stderr = supportsColor.stderr
+
+export default supportsColor

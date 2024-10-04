@@ -1,7 +1,7 @@
 import type { SupportsColor } from '../types'
 
-import translateLevel from '../utils/translateLevel'
-import supportsLevel from './utils/supportsLevel'
+import { translateLevel } from '../utils'
+import { supportsLevel } from './utils'
 
 const main = (): SupportsColor => {
   const level = supportsLevel()

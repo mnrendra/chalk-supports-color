@@ -1,4 +1,4 @@
-import type { Options } from '@/types'
+import type { Options } from '@/node/types'
 
 const options: Options = {
   streamIsTTY: true
