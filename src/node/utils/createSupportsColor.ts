@@ -1,5 +1,5 @@
-import type { ColorSupport, Options } from '../../types'
-import type { Stream } from '../types'
+import type { ColorSupport } from '../../types'
+import type { Options, Stream } from '../types'
 
 import { translateLevel } from '../../utils'
 import supportsLevel from './supportsLevel'

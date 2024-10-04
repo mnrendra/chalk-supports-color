@@ -1,14 +1,17 @@
 # @mnrendra/chalk-supports-color
 
-Refactor the [supports-color](https://github.com/chalk/supports-color) code to **TypeScript** and ensure the output supports both **CommonJS (CJS)** and **ES Modules (ESM)** with mixed exports. This will allow users to `import` or `require` the module without needing to use `.default`.
+Refactor the [supports-color](https://github.com/chalk/supports-color) code into **TypeScript** and ensure the output supports both **CommonJS (CJS)** and **ES Modules (ESM)** with mixed exports. This will allow users to `import` or `require` the module without needing to access the `.default` property.
 
 ## Benefits
 - ✅ Auto-detection for `browser` and `node` platforms
 - ✅ Supports both **CommonJS (CJS)** and **ES Modules (ESM)**
-- ✅ Mixed exports (No need to call `.default` to get the default value)
+- ✅ Mixed exports (no need to access `.default` for default value)
 - ✅ Minified distribution package
 - ✅ Well-tested (100% code coverage)
-- ✅ **TypeScript** source code for development
+- ✅ **TypeScript** source code for easier development
+
+## Reference
+Refactored from the [original source code](https://github.com/chalk/supports-color) since version [v9.4.0](https://github.com/chalk/supports-color/releases/tag/v9.4.0), commit [c214314](https://github.com/chalk/supports-color/commit/c214314a14bcb174b12b3014b2b0a8de375029ae).
 
 ## Install
 ```bash
@@ -27,63 +30,15 @@ const {
   createSupportsColor
 } = require('@mnrendra/chalk-supports-color')
 
-console.log(supportsColor) // It will print:
-// {
-//   stdout: {
-//     level: 2,
-//     hasBasic: true,
-//     has256: true,
-//     has16m: false
-//   },
-//   stderr: {
-//     level: 2,
-//     hasBasic: true,
-//     has256: true,
-//     has16m: false
-//   }
-// }
-
-console.log(supportsColor.stdout) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(supportsColor.stderr) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(stdout) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(stderr) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(createSupportsColor({ isTTY: true })) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(supportsColor.default) // It will print the same as `supportsColor`.
+// from default export
+console.log(supportsColor)
+console.log(supportsColor.default)
+console.log(supportsColor.stdout)
+console.log(supportsColor.stderr)
+// from named exports
+console.log(stdout)
+console.log(stderr)
+console.log(createSupportsColor({ isTTY: true }))
 ```
 
 Using `ES Modules`:
@@ -94,63 +49,15 @@ import supportsColor, {
   createSupportsColor
 } from '@mnrendra/chalk-supports-color'
 
-console.log(supportsColor) // It will print:
-// {
-//   stdout: {
-//     level: 2,
-//     hasBasic: true,
-//     has256: true,
-//     has16m: false
-//   },
-//   stderr: {
-//     level: 2,
-//     hasBasic: true,
-//     has256: true,
-//     has16m: false
-//   }
-// }
-
-console.log(supportsColor.stdout) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(supportsColor.stderr) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(stdout) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(stderr) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(createSupportsColor({ isTTY: true })) // It will print:
-// {
-//   level: 2,
-//   hasBasic: true,
-//   has256: true,
-//   has16m: false
-// }
-
-console.log(supportsColor.default) // It will print the same as `supportsColor`.
+// from default export
+console.log(supportsColor)
+console.log(supportsColor.default)
+console.log(supportsColor.stdout)
+console.log(supportsColor.stderr)
+// from named exports
+console.log(stdout)
+console.log(stderr)
+console.log(createSupportsColor({ isTTY: true }))
 ```
 
 For more details, refer to the original source code: [https://github.com/chalk/supports-color](https://github.com/chalk/supports-color).
@@ -172,9 +79,6 @@ Contributions are always welcome! Please open discussions [here](https://github.
 ## Special Thanks 🙇
 - [sindresorhus](https://github.com/sindresorhus) for creating the [original source code](https://github.com/chalk/supports-color).
 - [Qix-](https://github.com/Qix-) for being the active maintainer of the [original source code](https://github.com/chalk/supports-color).
-
-## Reference
-Refactored from the [original source code](https://github.com/chalk/supports-color) since version [v9.4.0](https://github.com/chalk/supports-color/releases/tag/v9.4.0), commit [c214314](https://github.com/chalk/supports-color/commit/c214314a14bcb174b12b3014b2b0a8de375029ae).
 
 ## License
 [MIT](https://github.com/mnrendra/chalk-supports-color/blob/HEAD/LICENSE)
