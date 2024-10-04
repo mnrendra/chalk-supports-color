@@ -1,5 +1,5 @@
-import type { ColorSupportLevel, Options } from '../../types'
-import type { Stream } from '../types'
+import type { ColorSupportLevel } from '../../types'
+import type { Options, Stream } from '../types'
 
 import { release } from 'node:os'
 
