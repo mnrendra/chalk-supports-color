@@ -7,12 +7,11 @@ export default [
   {
     external: (id) => !/^[./]/.test(id),
     input: 'src/index.ts',
-    output: [
-      {
-        file: 'dist/index.js',
-        format: 'cjs'
-      }
-    ],
+    output: {
+      file: 'dist/index.js',
+      format: 'cjs',
+      sourcemap: true
+    },
     plugins: [
       esbuild({ minify: true }),
       mixeport({ minify: true })
@@ -25,12 +24,11 @@ export default [
   {
     external: (id) => !/^[./]/.test(id),
     input: 'src/browser/index.ts',
-    output: [
-      {
-        file: 'dist/browser.js',
-        format: 'cjs'
-      }
-    ],
+    output: {
+      file: 'dist/browser.js',
+      format: 'cjs',
+      sourcemap: true
+    },
     plugins: [
       esbuild({ minify: true }),
       mixeport({ minify: true })
@@ -45,7 +43,8 @@ export default [
     input: 'src/index.ts',
     output: {
       file: 'dist/index.d.ts',
-      format: 'es'
+      format: 'es',
+      sourcemap: true
     },
     plugins: dts()
   }

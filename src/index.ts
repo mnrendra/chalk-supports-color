@@ -1,4 +1,4 @@
-import supportsColor from './node'
+import node from './node'
 
 export type {
   ColorSupportLevel,
@@ -11,7 +11,8 @@ export {
   type Options,
   createSupportsColor,
   stdout,
-  stderr
+  stderr,
+  supportsColor
 } from './node'
 
-export default supportsColor
+export default node

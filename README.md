@@ -1,6 +1,5 @@
 # @mnrendra/chalk-supports-color
-
-Refactor the [supports-color](https://github.com/chalk/supports-color) code into **TypeScript** and ensure the output supports both **CommonJS (CJS)** and **ES Modules (ESM)** with mixed exports. This will allow users to `import` or `require` the module without needing to access the `.default` property.
+Refactored [supports-color](https://github.com/chalk/supports-color) code to support both **CommonJS (CJS)** and **ES Modules (ESM)** with mixed exports. This allows users to `import` or `require` the module without needing to access the `.default` property.
 
 ## Benefits
 - ✅ Auto-detection for `browser` and `node` platforms
@@ -11,7 +10,8 @@ Refactor the [supports-color](https://github.com/chalk/supports-color) code into
 - ✅ **TypeScript** source code for easier development
 
 ## Reference
-Refactored from the [original source code](https://github.com/chalk/supports-color) since version [v9.4.0](https://github.com/chalk/supports-color/releases/tag/v9.4.0), commit [c214314](https://github.com/chalk/supports-color/commit/c214314a14bcb174b12b3014b2b0a8de375029ae).
+Refactored from the [original source code](https://github.com/chalk/supports-color) since version [v9.4.0](https://github.com/chalk/supports-color/releases/tag/v9.4.0), commit [c214314](https://github.com/chalk/supports-color/commit/c214314a14bcb174b12b3014b2b0a8de375029ae).<br/>
+*This module will be kept updated with the original source code; contributions are welcome. 🙏*
 
 ## Install
 ```bash
@@ -19,7 +19,6 @@ npm i @mnrendra/chalk-supports-color
 ```
 
 ## Usage
-
 Using `CommonJS`:
 ```javascript
 const supportsColor = require('@mnrendra/chalk-supports-color')
@@ -79,6 +78,7 @@ Contributions are always welcome! Please open discussions [here](https://github.
 ## Special Thanks 🙇
 - [sindresorhus](https://github.com/sindresorhus) for creating the [original source code](https://github.com/chalk/supports-color).
 - [Qix-](https://github.com/Qix-) for being the active maintainer of the [original source code](https://github.com/chalk/supports-color).
+- and all [contributors](https://github.com/chalk/supports-color/graphs/contributors) who contributed to the original source code.
 
 ## License
 [MIT](https://github.com/mnrendra/chalk-supports-color/blob/HEAD/LICENSE)
