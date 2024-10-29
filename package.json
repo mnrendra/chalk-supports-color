@@ -1,7 +1,7 @@
 {
   "name": "@mnrendra/chalk-supports-color",
   "version": "2.0.0",
-  "description": "Refactor the supports-color code into TypeScript and ensure the output supports both CommonJS (CJS) and ES Modules (ESM) with mixed exports.",
+  "description": "Refactored supports-color code to support both CommonJS (CJS) and ES Modules (ESM) with mixed exports.",
   "private": false,
   "main": "dist/index.js",
   "browser": "dist/browser.js",
