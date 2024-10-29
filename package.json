@@ -1,7 +1,7 @@
 {
   "name": "@mnrendra/chalk-supports-color",
   "version": "2.0.0",
-  "description": "Refactored version of Chalk's supports-color from https://github.com/chalk/supports-color.",
+  "description": "Refactor the supports-color code into TypeScript and ensure the output supports both CommonJS (CJS) and ES Modules (ESM) with mixed exports.",
   "private": false,
   "main": "dist/index.js",
   "browser": "dist/browser.js",
@@ -26,7 +26,7 @@
   },
   "homepage": "https://github.com/mnrendra/chalk-supports-color#readme",
   "devDependencies": {
-    "@mnrendra/rollup-plugin-mixexport": "^2.0.0",
+    "@mnrendra/rollup-plugin-mixexport": "^3.1.0",
     "@semantic-release/exec": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@types/jest": "^29.5.13",
