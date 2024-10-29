@@ -1,5 +1,3 @@
-import '@/utils/index.test'
-
 import os from 'node:os'
 
 import noEnv from '@tests/dummies/noEnv'
@@ -8,13 +6,13 @@ import mockedIsatty from '@tests/mocks/isatty'
 import unmockIsatty from '@tests/unmocks/isatty'
 import useOri from '@tests/utils/useOri'
 
-import main from './main'
+import { supportsColor } from '..'
 
 jest.mock('node:tty', () => ({
   isatty: jest.fn()
 }))
 
-describe('Test `main` node feature:', () => {
+describe('Test node\'s `supportsColor` feature:', () => {
   const oriProcess = useOri(globalThis.process)
 
   beforeEach(() => {
@@ -44,7 +42,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -56,7 +54,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -68,7 +66,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 0!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level0
         expect(received).toEqual(expected)
       })
@@ -80,7 +78,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 0!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level0
         expect(received).toEqual(expected)
       })
@@ -92,7 +90,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -104,7 +102,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 2!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
@@ -116,7 +114,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 3!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level3
         expect(received).toEqual(expected)
       })
@@ -137,7 +135,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -149,7 +147,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -161,7 +159,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -173,7 +171,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -185,7 +183,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -197,7 +195,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -209,7 +207,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -221,7 +219,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -233,7 +231,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -245,7 +243,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -257,7 +255,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -269,7 +267,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 2!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
@@ -281,7 +279,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 2!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
@@ -293,7 +291,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -307,7 +305,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -319,7 +317,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -331,7 +329,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -343,7 +341,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -355,7 +353,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -367,7 +365,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -379,7 +377,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -391,7 +389,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -403,7 +401,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -415,7 +413,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -427,7 +425,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -439,7 +437,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 2!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
@@ -451,7 +449,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 2!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
@@ -463,7 +461,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 0!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level0
           expect(received).toEqual(expected)
         })
@@ -479,7 +477,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -498,7 +496,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 0!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level0
         expect(received).toEqual(expected)
       })
@@ -510,7 +508,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 0!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level0
         expect(received).toEqual(expected)
       })
@@ -524,7 +522,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 0!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level0
         expect(received).toEqual(expected)
       })
@@ -548,7 +546,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 2!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
@@ -560,7 +558,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 3!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level3
         expect(received).toEqual(expected)
       })
@@ -572,7 +570,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -591,7 +589,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -603,7 +601,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -615,7 +613,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -627,7 +625,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -639,7 +637,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -651,7 +649,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -663,7 +661,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -675,7 +673,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
@@ -687,14 +685,14 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 1!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level1
           expect(received).toEqual(expected)
         })
       })
 
       it('Should return `colorSupport` level 0!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level0
         expect(received).toEqual(expected)
       })
@@ -708,7 +706,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -720,7 +718,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 0!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level0
         expect(received).toEqual(expected)
       })
@@ -734,7 +732,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 3!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level3
         expect(received).toEqual(expected)
       })
@@ -746,7 +744,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 3!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level3
         expect(received).toEqual(expected)
       })
@@ -763,7 +761,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 3!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level3
           expect(received).toEqual(expected)
         })
@@ -775,7 +773,7 @@ describe('Test `main` node feature:', () => {
         })
 
         it('Should return `colorSupport` level 2!', () => {
-          const received = main()
+          const received = supportsColor()
           const expected = colorSupports.level2
           expect(received).toEqual(expected)
         })
@@ -788,7 +786,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 2!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
@@ -800,7 +798,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 2!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
@@ -812,7 +810,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 2!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level2
         expect(received).toEqual(expected)
       })
@@ -824,7 +822,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 0!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level0
         expect(received).toEqual(expected)
       })
@@ -836,7 +834,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -848,7 +846,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -860,7 +858,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -872,7 +870,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -884,7 +882,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -896,7 +894,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -908,7 +906,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -920,7 +918,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -932,7 +930,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -944,7 +942,7 @@ describe('Test `main` node feature:', () => {
       })
 
       it('Should return `colorSupport` level 1!', () => {
-        const received = main()
+        const received = supportsColor()
         const expected = colorSupports.level1
         expect(received).toEqual(expected)
       })
@@ -953,7 +951,7 @@ describe('Test `main` node feature:', () => {
 
   describe('By mocking other conditions:', () => {
     it('Should return `colorSupport` level 0!', () => {
-      const received = main()
+      const received = supportsColor()
       const expected = colorSupports.level0
       expect(received).toEqual(expected)
     })
